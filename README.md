@@ -91,6 +91,27 @@ kana.ExtractKanji("また、平易な日本語で伝える週刊ニュースも�
 ### Linguistic Considerations
 A number of rule considerations and assumptions have been made while creating this library in order to conform to Modified-Hepburn Wapuro Romaji.
 
+* __Long Vowels__ are indicated using using repeating characters instead of macrons/circumflexes: oo/おお instead of ō:
+    * benkyou/べんきょう, not benkyō.
+    * toukyou/とうきょう, not Tōkyō.
+    * obaasan/おばあさん, not obāsan.
+  * __Chōonpu (ー) are preferred__ for katakana and loan words, and will preserved or converted to minus-dashes.
+    * セーラー, not セエラア, becoming se-ra-
+    * パーティー, not パアティィ, becoming pa-ti-
 
-
+* __Particles__ are always converted literally:
+    * は is ha, not wa.
+    * を is wo, not o.
+    * へ is he, not e, etc.
+* __Moraic N's are used__ to disambiguate ん and な,に,ぬ,ね,の,にゃ,にゅ,にょ:
+    * かんい is kan'i
+    * しにょう is shin'you
+    * ぜんにん is zennin
+    * ぜんいん is zen'in
+    * あんない is annai
+* __Long Consonants__ marked with sokuons are doubled:
+    * いっしょ is issho
+    * ぱっぱ is pappa
+* __la, le, lu__ are converted to _ra, re, ru_ before transliteration.
+* 
 
