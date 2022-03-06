@@ -1,12 +1,12 @@
 # Kana Tools
-### A Go package for Revised-Hepburn Wapuro Romaji, Katakana, and Hiragana Detection and Conversion
+### A Go package for Wapuro Romaji, Katakana, and Hiragana Detection and Conversion
 
 ![kana-tools](https://github.com/mochi-co/kana-tools/actions/workflows/build.yml/badge.svg) 
 [![Coverage Status](https://coveralls.io/repos/github/mochi-co/kana-tools/badge.svg?branch=main)](https://coveralls.io/github/mochi-co/kana-tools?branch=main)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mochi-co/kana-tools)](https://goreportcard.com/report/github.com/mochi-co/kana-tools)
 [![Go Reference](https://pkg.go.dev/badge/github.com/mochi-co/kana-tools.svg)](https://pkg.go.dev/github.com/mochi-co/kana-tools)
 
-Kana Tools provides Romaji ←→ Kana transliteration based on a [Wāpuro rōmaji (ワープロローマ字)](https://en.wikipedia.org/wiki/Wāpuro_rōmaji) implementation of [Modified (Revised) Hepburn Romanization](https://en.wikipedia.org/wiki/Hepburn_romanization).
+Kana Tools provides Romaji ←→ Kana transliteration based on [Wāpuro rōmaji (ワープロローマ字)](https://en.wikipedia.org/wiki/Wāpuro_rōmaji) romanization.
 
 Where possible, the library uses a static rather than computational approach in order to perform conversions, relying on order-of-operations to ensure the correct output and provide a higher degree of wapuro conformity and maintainability.
 
@@ -94,7 +94,7 @@ kana.ExtractKanji("また、平易な日本語で伝える週刊ニュースも�
 
 
 ### Linguistic Considerations
-A number of rule considerations and assumptions have been made while creating this library in order to conform to Modified-Hepburn Wapuro Romaji.
+A number of rule considerations and assumptions have been made while creating this library in order to conform to Wapuro romanization.
 
 * __Long Vowels__ are indicated using using repeating characters instead of macrons/circumflexes: oo/おお instead of ō:
     * benkyou/べんきょう, not benkyō.
