@@ -112,9 +112,9 @@ A number of rule considerations and assumptions have been made while creating th
     * いっしょ is issho
     * ぱっぱ is pappa
     * ざっし is zasshi
-* __cch uses the Revised Hepburn intepretation (tch)__ for alignment with English phonology:
-    * まっちゃ is matcha, not maccha
-    * こっち is kotchi, not kocchi
+    * __cch uses the Revised Hepburn intepretation (tch)__ for alignment with English phonology:
+        * まっちゃ is matcha, not maccha
+        * こっち is kotchi, not kocchi
 * __la, li, lu, le, lo__ are converted to _ra, ri, ru, re, ro_ before transliteratio.
 * __Nihon-Shiki romanization is used to map input-ambiguous characters:__
     * da and DA are だ and ダ
