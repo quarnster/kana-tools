@@ -98,7 +98,6 @@ A number of rule considerations and assumptions have been made while creating th
   * __Chōonpu (ー) are preferred__ for katakana and loan words, and will preserved or converted to minus-dashes.
     * セーラー, not セエラア, becoming se-ra-
     * パーティー, not パアティィ, becoming pa-ti-
-
 * __Particles__ are always converted literally:
     * は is ha, not wa.
     * を is wo, not o.
@@ -112,6 +111,23 @@ A number of rule considerations and assumptions have been made while creating th
 * __Long Consonants__ marked with sokuons are doubled:
     * いっしょ is issho
     * ぱっぱ is pappa
-* __la, le, lu__ are converted to _ra, re, ru_ before transliteration.
-* 
-
+    * ざっし is zasshi
+   * __However, _the Revised Hepburn intepretation of cch is used for alignment with English phonology:__ 
+     * まっちゃ is matcha, not maccha
+     * こっち is kotchi, not kocchi
+* __la, li, lu, le, lo__ are converted to _ra, ri, ru, re, ro_ before transliteration.
+* __Nihon-Shiki Romanization is used to map input-ambiguous characters:__
+    * da and DA are だ and ダ
+    * di and DI are ぢ and ヂ
+    * du and DU are づ and ヅ
+    * de and DE are で and デ
+	 * do and DO are ど and ド
+* __じゃ, じゅ and じょ are ja, ju, and jo,__ however, _jya, jyu, and jyo_ are also valid for a one-way romaji→kana conversion.
+* __Isolated small vowel kana__ are romanized with 'x' prefixes, _if not part of a larger composite._ 
+    * xa and XA are ぁ and ァ
+	 * xi and XI are ぃ and ィ
+	 * xu and XU are ぅ and ゥ
+	 * xe and XE are ぇ and ェ
+	 * xo and XO are ぉ and ォ
+	 * __Dangling _x_'s__ that remain after all other transliterations are converted into っ and ッ for hiragana and katakana respectively.
+ 
