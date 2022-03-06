@@ -1,5 +1,5 @@
 # Kana Tools
-### A Go library for Modified-Hepburn Wapuro Romaji, Katakana, and Hiragana Detection and Conversion
+### A Go package for Modified-Hepburn Wapuro Romaji, Katakana, and Hiragana Detection and Conversion
 
 ![kana-tools](https://github.com/mochi-co/kana-tools/actions/workflows/build.yml/badge.svg) 
 [![Coverage Status](https://coveralls.io/repos/github/mochi-co/kana-tools/badge.svg?branch=main)](https://coveralls.io/github/mochi-co/kana-tools?branch=main)
