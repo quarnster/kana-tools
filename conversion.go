@@ -32,7 +32,7 @@ func ToHiragana(s string) string {
 	return postKanaSpecial.Replace(s)
 }
 
-// ToHiragana converts wapuro-hepburn romaji into the equivalent katakana.
+// ToKatakana converts wapuro-hepburn romaji into the equivalent katakana.
 func ToKatakana(s string) string {
 	s = strings.ToUpper(s)
 	s = preKatakana.Replace(s)

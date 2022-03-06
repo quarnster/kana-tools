@@ -38,13 +38,13 @@ var postRomajiSpecial = strings.NewReplacer(
 )
 
 // postHiragana performs final character transliterations after romajiToHiragana
-// replacements have occured.
+// replacements have occurred.
 var postHiragana = strings.NewReplacer(
 	"x", "っ", // any dangling wapruo x-prefixes become hiragana small tu (0x3063).
 )
 
 // postKatakana performs final character transliterations after romajiToKatakana
-// replacements have occured.
+// replacements have occurred.
 var postKatakana = strings.NewReplacer(
 	"X", "ッ", // any dangling wapruo x-prefixes become katakana small tu (0x30C3.
 )
@@ -116,7 +116,7 @@ var preKatakana = strings.NewReplacer(
 )
 
 // postRomaji performs final character transliterations after toRomaji
-// replacements have occured.
+// replacements have occurred.
 var postRomaji = strings.NewReplacer(
 	"ァ", "a", // Convert any remaining dangling small vowels to romaji equivalents.
 	"ィ", "i",
@@ -538,7 +538,7 @@ var romajiToKatakana = strings.NewReplacer(
 // kanaToRomaji is a Replacer which maps katakana and hiragana to latin romaji characters.
 // The order of the pairs is important - the wider pairs must be processed first, otherwise
 // the smaller pairs will aggresively replace those after them, creating invalid elements.
-// Katakana is returned in upper case to faciliate case-sensitive outputs.
+// Katakana is returned in upper case to facilitate case-sensitive outputs.
 var kanaToRomaji = strings.NewReplacer(
 	"きゃ", "kya",
 	"きゅ", "kyu",
