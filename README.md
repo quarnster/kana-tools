@@ -116,7 +116,7 @@ A number of rule considerations and assumptions have been made while creating th
      * まっちゃ is matcha, not maccha
      * こっち is kotchi, not kocchi
 * __la, li, lu, le, lo__ are converted to _ra, ri, ru, re, ro_ before transliteration.
-* __Nihon-Shiki Romanization is used to map input-ambiguous characters:__
+* __Nihon-Shiki romanization is used to map input-ambiguous characters:__
     * da and DA are だ and ダ
     * di and DI are ぢ and ヂ
     * du and DU are づ and ヅ
@@ -133,6 +133,7 @@ A number of rule considerations and assumptions have been made while creating th
     * xo and XO are ぉ and ォ
     * __Dangling _x_'s__ that remain after all other transliterations are converted into っ and ッ for hiragana and katakana respectively. The unnatural sequence "xx" will always become っっ or ッッ.
  
+Review `tables.go` for romaji and kana character mapping references. 
  
 ### Contributions
 
