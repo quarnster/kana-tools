@@ -3,7 +3,7 @@
 
 Kana Tools provides Romaji ←→ Kana transliteration based on a [Wāpuro rōmaji (ワープロローマ字)](https://en.wikipedia.org/wiki/Wāpuro_rōmaji) implementation of [Modified (Revised) Hepburn Romanization](https://en.wikipedia.org/wiki/Hepburn_romanization).
 
-Where possible, the library uses static approach rather than computational approach in order to perform conversions, relying on order-of-operations to ensure the correct output and provide a higher degree of wapuro conformity and maintainability.
+Where possible, the library uses static rather than computational approach in order to perform conversions, relying on order-of-operations to ensure the correct output and provide a higher degree of wapuro conformity and maintainability.
 
 
 ### Usage
