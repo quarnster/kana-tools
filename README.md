@@ -123,11 +123,21 @@ A number of rule considerations and assumptions have been made while creating th
     * de and DE are で and デ
 	 * do and DO are ど and ド
 * __じゃ, じゅ and じょ are ja, ju, and jo,__ however, _jya, jyu, and jyo_ are also valid for a one-way romaji→kana conversion.
-* __Isolated small vowel kana__ are romanized with 'x' prefixes, _if not part of a larger composite._ 
+* __Isolated small vowel kana__ are romanized with 'x' prefixes, _if they are not part of a larger composite:_ 
+    * フォト becomes "foto", as the ォ is part of the larger composite フォ.
+    * The unnatural spelling _パーティィ or ぱーてぃぃ_ becomes _pa-tixi,_ not pa-tii or pa-texixi. The correct spelling is パーティ (pa-ti).
     * xa and XA are ぁ and ァ
-	 * xi and XI are ぃ and ィ
-	 * xu and XU are ぅ and ゥ
-	 * xe and XE are ぇ and ェ
-	 * xo and XO are ぉ and ォ
-	 * __Dangling _x_'s__ that remain after all other transliterations are converted into っ and ッ for hiragana and katakana respectively.
+    * xi and XI are ぃ and ィ
+    * xu and XU are ぅ and ゥ
+    * xe and XE are ぇ and ェ
+    * xo and XO are ぉ and ォ
+    * __Dangling _x_'s__ that remain after all other transliterations are converted into っ and ッ for hiragana and katakana respectively. The unnatural sequence "xx" will always become っっ or ッッ.
  
+ 
+### Contributions
+
+Open an issue to report a bug, ask a question, or make a feature request!
+
+### License
+
+MIT License.
