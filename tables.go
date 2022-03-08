@@ -21,6 +21,12 @@ var sanitizeIsChecksKanji = strings.NewReplacer(
 	" ", "", // spaces (0x20) are removed.
 )
 
+// vocalizedRomaji replaces di and du with ji and zu, as they are pronounced.
+var vocalizedRomaji = strings.NewReplacer(
+	"di", "ji",
+	"du", "zu",
+)
+
 // postKanaSpecial performs final character transliterations after all others have
 // been performed.
 var postKanaSpecial = strings.NewReplacer(

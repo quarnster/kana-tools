@@ -22,6 +22,15 @@ func ToRomajiCased(s string) string {
 	return postRomajiSpecial.Replace(s)
 }
 
+// Vocalized returns the romaji as it would be vocalized by replacing di and du
+// with ji and ju.
+// Note: There was some consideration as to whether this should be a
+// bool parameter on `ToRomaji` and `ToRomajiCased`, but a separate function was
+// opted for instead in order to maintain low usage complexity.
+func Vocalized(s string) string {
+	return vocalizedRomaji.Replace(s)
+}
+
 // ToHiragana converts wapuro-hepburn romaji into the equivalent hiragana.
 func ToHiragana(s string) string {
 	s = strings.ToLower(s)

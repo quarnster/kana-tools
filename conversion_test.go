@@ -45,6 +45,14 @@ func TestReadmeExamples(t *testing.T) {
 	require.Equal(t, []string{"平", "易", "日", "本", "語", "伝", "週", "刊", "放", "送", "日", "本", "語"}, ExtractKanji("また、平易な日本語で伝える週刊ニュースも放送します。日本語"))
 }
 
+func TestVocalized(t *testing.T) {
+	require.Equal(t, "tsuduku", ToRomaji("つづく"))
+	require.Equal(t, "tsuzuku", Vocalized(ToRomaji("つづく")))
+
+	require.Equal(t, "madika", ToRomaji("まぢか"))
+	require.Equal(t, "majika", Vocalized(ToRomaji("まぢか")))
+}
+
 func TestIsHiragana(t *testing.T) {
 	tt := []struct {
 		s string
@@ -572,6 +580,7 @@ var toHiraganaBasicSequences = [][]string{
 	{"eki", "えき"},
 	{"shokubutsu", "しょくぶつ"},
 	{"mizuumi", "みずうみ"},
+	{"majika", "まぢか"},
 }
 
 var toKatakanaBasicSequences = [][]string{
@@ -589,6 +598,7 @@ var toKatakanaBasicSequences = [][]string{
 	{"purofi-ru", "プロフィール"},
 	{"mi-tingu", "ミーティング"},
 	{"ko-hi-", "コーヒー"},
+	{"je", "ジェ"},
 }
 
 func TestToRomajiShouldConvertBasicSequence(t *testing.T) {

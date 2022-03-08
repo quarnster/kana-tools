@@ -31,6 +31,14 @@ kana.ToRomajiCased("ひらがな and カタカナ") // -> "hiragana and KATAKANA
 ```
 
 ```go
+// By default, ToRomaji outputs the literal transliteration of the kana.
+// This means that づ and ぢ are du and di, respectively. To return the correct
+// vocal pronunciation of a romaji string, use `Vocalized(s string):`
+kana.ToRomaji("つづく") // -> "tsuduku"
+kana.Vocalized(kana.ToRomaji("つづく")) // -> "tsuzuku"
+```
+
+```go
 // Convert Romaji and Katakana to Hiragana
 kana.ToHiragana("hiragana") // -> "ひらがな"
 kana.ToHiragana("hiragana + カタカナ") // -> "ひらがな + かたかな"
@@ -122,11 +130,9 @@ A number of rule considerations and assumptions have been made while creating th
         * こっち is kotchi, not kocchi
 * __la, li, lu, le, lo__ are converted to _ra, ri, ru, re, ro_ before transliteratio.
 * __Nihon-Shiki romanization is used to map input-ambiguous characters:__
-    * da and DA are だ and ダ
     * di and DI are ぢ and ヂ
     * du and DU are づ and ヅ
-    * de and DE are で and デ
-	 * do and DO are ど and ド
+    * Use the `Vocalized(s string)` function to convert the returned romaji into the normalized pronunciation: _di_ becomes _ji_, _du_ becomes _zu_.
 * __じゃ, じゅ and じょ are ja, ju, and jo,__ however, _jya, jyu, and jyo_ are also valid for a one-way romaji→kana conversion.
 * __Isolated small vowel kana__ are romanized with 'x' prefixes, _if they are not part of a larger composite:_ 
     * フォト becomes "foto", as the ォ is part of the larger composite フォ.
