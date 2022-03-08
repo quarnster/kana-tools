@@ -5,30 +5,30 @@ import (
 	"unicode"
 )
 
-// ToRomaji converts hiragana and/or katakana to lowercase romaji.
-func ToRomaji(s string) string {
-	s = ToRomajiCased(s)
+// ToRomaji converts hiragana and/or katakana to lowercase romaji. By default,
+// the literal transliteration of づ　and ぢ are used, returnin du and di,
+// respectively. Set vocalize to true to return the romaji in its correctly
+// pronounced form - zu and ji.
+func ToRomaji(s string, vocalize bool) string {
+	s = ToRomajiCased(s, vocalize)
 	s = strings.ToLower(s)
+
 	return s
 }
 
 // ToRomajiCased converts hiragana and/or katakana to cased romaji, where
 // hiragana and katakana are presented in lowercase and uppercase respectively.
-func ToRomajiCased(s string) string {
+func ToRomajiCased(s string, vocalize bool) string {
 	s = moraicNRomaji.Replace(s)
 	s = kanaToRomaji.Replace(s)
 	s = parseRomajiDoubles([]rune(s))
 	s = postRomaji.Replace(s)
-	return postRomajiSpecial.Replace(s)
-}
+	s = postRomajiSpecial.Replace(s)
 
-// Vocalized returns the romaji as it would be vocalized by replacing di and du
-// with ji and ju.
-// Note: There was some consideration as to whether this should be a
-// bool parameter on `ToRomaji` and `ToRomajiCased`, but a separate function was
-// opted for instead in order to maintain low usage complexity.
-func Vocalized(s string) string {
-	return vocalizedRomaji.Replace(s)
+	if vocalize {
+		s = vocalizedRomaji.Replace(s)
+	}
+	return s
 }
 
 // ToHiragana converts wapuro-hepburn romaji into the equivalent hiragana.

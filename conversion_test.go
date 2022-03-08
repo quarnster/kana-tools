@@ -8,13 +8,13 @@ import (
 )
 
 func TestReadmeExamples(t *testing.T) {
-	require.Equal(t, "hiragana", ToRomaji("ひらがな"))
-	require.Equal(t, "katakana", ToRomaji("カタカナ"))
-	require.Equal(t, "hiragana and katakana", ToRomaji("ひらがな and カタカナ"))
+	require.Equal(t, "hiragana", ToRomaji("ひらがな", false))
+	require.Equal(t, "katakana", ToRomaji("カタカナ", false))
+	require.Equal(t, "hiragana and katakana", ToRomaji("ひらがな and カタカナ", false))
 
-	require.Equal(t, "hiragana", ToRomajiCased("ひらがな"))
-	require.Equal(t, "KATAKANA", ToRomajiCased("カタカナ"))
-	require.Equal(t, "hiragana and KATAKANA", ToRomajiCased("ひらがな and カタカナ"))
+	require.Equal(t, "hiragana", ToRomajiCased("ひらがな", false))
+	require.Equal(t, "KATAKANA", ToRomajiCased("カタカナ", false))
+	require.Equal(t, "hiragana and KATAKANA", ToRomajiCased("ひらがな and カタカナ", false))
 
 	require.Equal(t, "ひらがな", ToHiragana("hiragana"))
 	require.Equal(t, "ひらがな + かたかな", ToHiragana("hiragana + カタカナ"))
@@ -46,11 +46,11 @@ func TestReadmeExamples(t *testing.T) {
 }
 
 func TestVocalized(t *testing.T) {
-	require.Equal(t, "tsuduku", ToRomaji("つづく"))
-	require.Equal(t, "tsuzuku", Vocalized(ToRomaji("つづく")))
+	require.Equal(t, "tsuduku", ToRomaji("つづく", false))
+	require.Equal(t, "tsuzuku", ToRomaji("つづく", true))
 
-	require.Equal(t, "madika", ToRomaji("まぢか"))
-	require.Equal(t, "majika", Vocalized(ToRomaji("まぢか")))
+	require.Equal(t, "madika", ToRomaji("まぢか", false))
+	require.Equal(t, "majika", ToRomaji("まぢか", true))
 }
 
 func TestIsHiragana(t *testing.T) {
@@ -269,7 +269,7 @@ func TestToRomajiShouldConvertSmallToXx(t *testing.T) {
 	}
 
 	for i, v := range tt {
-		require.Equal(t, v[1], ToRomaji(v[0]), "testing (%d) %s = %s", i, v[0], v[1])
+		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
 }
 
@@ -341,7 +341,7 @@ func TestToRomajiShouldConvertMoraicNs(t *testing.T) {
 	}
 
 	for i, v := range tt {
-		require.Equal(t, v[1], ToRomaji(v[0]), "testing (%d) %s = %s", i, v[0], v[1])
+		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
 }
 
@@ -453,7 +453,7 @@ func TestToRomajiShouldConvertDoubleConsonants(t *testing.T) {
 	}
 
 	for i, v := range tt {
-		require.Equal(t, v[1], ToRomaji(v[0]), "testing (%d) %s = %s", i, v[0], v[1])
+		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
 }
 
@@ -533,7 +533,7 @@ func TestPostRomajiShouldConvertSpecialCharacters(t *testing.T) {
 	}
 
 	for i, v := range tt {
-		require.Equal(t, v[1], ToRomaji(v[0]), "testing (%d) %s = %s", i, v[0], v[1])
+		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
 }
 
@@ -562,7 +562,7 @@ func TestToRomajiShouldPreserveNonKanaCharacters(t *testing.T) {
 	}
 
 	for i, v := range tt {
-		require.Equal(t, v[1], ToRomaji(v[0]), "testing (%d) %s = %s", i, v[0], v[1])
+		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
 }
 
@@ -604,19 +604,19 @@ var toKatakanaBasicSequences = [][]string{
 
 func TestToRomajiShouldConvertBasicSequence(t *testing.T) {
 	for i, v := range toHiraganaBasicSequences {
-		require.Equal(t, v[0], ToRomaji(v[1]), "testing (%d) %s = %s", i, v[1], v[0])
+		require.Equal(t, v[0], ToRomaji(v[1], false), "testing (%d) %s = %s", i, v[1], v[0])
 	}
 	for i, v := range toKatakanaBasicSequences {
-		require.Equal(t, v[0], ToRomaji(v[1]), "testing (%d) %s = %s", i, v[1], v[0])
+		require.Equal(t, v[0], ToRomaji(v[1], false), "testing (%d) %s = %s", i, v[1], v[0])
 	}
 }
 
 func TestToRomajiCasedShouldConvertBasicSequence(t *testing.T) {
 	for i, v := range toHiraganaBasicSequences {
-		require.Equal(t, strings.ToLower(v[0]), ToRomajiCased(v[1]), "testing (%d) %s = %s", i, v[1], v[0])
+		require.Equal(t, strings.ToLower(v[0]), ToRomajiCased(v[1], false), "testing (%d) %s = %s", i, v[1], v[0])
 	}
 	for i, v := range toKatakanaBasicSequences {
-		require.Equal(t, strings.ToUpper(v[0]), ToRomajiCased(v[1]), "testing (%d) %s = %s", i, v[1], v[0])
+		require.Equal(t, strings.ToUpper(v[0]), ToRomajiCased(v[1], false), "testing (%d) %s = %s", i, v[1], v[0])
 	}
 }
 
@@ -1523,6 +1523,6 @@ func TestToRomajiEquivalents(t *testing.T) {
 	}
 
 	for i, v := range tt {
-		require.Equal(t, v[1], ToRomaji(v[0]), "testing (%d) %s = %s", i, v[0], v[1])
+		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
 }
