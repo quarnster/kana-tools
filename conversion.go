@@ -21,13 +21,16 @@ func ToRomaji(s string, vocalize bool) string {
 func ToRomajiCased(s string, vocalize bool) string {
 	s = moraicNRomaji.Replace(s)
 	s = kanaToRomaji.Replace(s)
-	s = parseRomajiDoubles([]rune(s))
-	s = postRomaji.Replace(s)
-	s = postRomajiSpecial.Replace(s)
 
 	if vocalize {
-		s = vocalizedRomaji.Replace(s)
+		s = phoneticRomaji.Replace(s)
+	} else {
+		s = unphoneticRomaji.Replace(s)
 	}
+
+	s = parseRomajiDoubles([]rune(s))
+	s = postRomajiSpecial.Replace(s)
+
 	return s
 }
 

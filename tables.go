@@ -21,10 +21,61 @@ var sanitizeIsChecksKanji = strings.NewReplacer(
 	" ", "", // spaces (0x20) are removed.
 )
 
-// vocalizedRomaji replaces di and du with ji and zu, as they are pronounced.
-var vocalizedRomaji = strings.NewReplacer(
-	"di", "ji",
-	"du", "zu",
+// phoneticRomaji replaces kana with romaji characters closer matching their
+// phonetic pronunciation.
+var phoneticRomaji = strings.NewReplacer(
+	"ぢゃ", "ja",
+	"ぢゅ", "ju",
+	"ぢょ", "jo",
+	"ヂャ", "JA",
+	"ヂュ", "JU",
+	"ヂョ", "JO",
+	"ぢ", "ji",
+	"ヂ", "JI",
+	"づ", "zu",
+	"ヅ", "ZU",
+
+	// Apply modified Hepburn cch->tch rule (matcha over maccha).
+	"っc", "tc",
+	"ッC", "TC",
+
+	// Convert any remaining dangling small vowels to romaji equivalents.
+	"ァ", "a",
+	"ィ", "i",
+	"ゥ", "u",
+	"ェ", "e",
+	"ォ", "o",
+	"ぁ", "a",
+	"ぃ", "i",
+	"ぅ", "u",
+	"ぇ", "e",
+	"ぉ", "o",
+)
+
+// unphoneticRomaji replaces kana with wapuro mapped romaji characters.
+var unphoneticRomaji = strings.NewReplacer(
+	"ぢゃ", "dya",
+	"ぢゅ", "dyu",
+	"ぢょ", "dyo",
+	"ヂャ", "DYA",
+	"ヂュ", "DYU",
+	"ヂョ", "DYO",
+	"ぢ", "di",
+	"ヂ", "DI",
+	"づ", "du",
+	"ヅ", "DU",
+
+	// Convert any remaining dangling small vowels to romaji equivalents.
+	"ァ", "xa",
+	"ィ", "xi",
+	"ゥ", "xu",
+	"ェ", "xe",
+	"ォ", "xo",
+	"ぁ", "xa",
+	"ぃ", "xi",
+	"ぅ", "xu",
+	"ぇ", "xe",
+	"ぉ", "xo",
 )
 
 // postKanaSpecial performs final character transliterations after all others have
@@ -121,21 +172,6 @@ var preKatakana = strings.NewReplacer(
 	"ZZ", "ッZ",
 )
 
-// postRomaji performs final character transliterations after toRomaji
-// replacements have occurred.
-var postRomaji = strings.NewReplacer(
-	"ァ", "a", // Convert any remaining dangling small vowels to romaji equivalents.
-	"ィ", "i",
-	"ゥ", "u",
-	"ェ", "e",
-	"ォ", "o",
-	"ぁ", "a",
-	"ぃ", "i",
-	"ぅ", "u",
-	"ぇ", "e",
-	"ぉ", "o",
-)
-
 // parseRomajiDoubles converts double-consonant half-parsed kana-romaji strings
 // into pure romaji equivalents. The function is called after kanaToRomaji
 // replacements have been made, which produces intermediary kana-romaji pairs,
@@ -144,13 +180,7 @@ func parseRomajiDoubles(r []rune) string {
 	for i := 0; i < len(r); i++ {
 		if r[i] == 'っ' || r[i] == 'ッ' {
 			if i+1 < len(r) {
-				if r[i+1] == 'c' || r[i+1] == 'C' {
-					// Apply modified Hepburn cch->tch rule (matcha over maccha).
-					// If i+1 is a 'c', use a 't' instead.
-					r[i] = 't'
-				} else {
-					r[i] = r[i+1]
-				}
+				r[i] = r[i+1]
 			}
 		}
 	}
@@ -248,6 +278,7 @@ var romajiToHiragana = strings.NewReplacer(
 	"pu", "ぷ",
 	"pe", "ぺ",
 	"po", "ぽ",
+	"duu", "でゅ",
 	"kya", "きゃ",
 	"kyu", "きゅ",
 	"kyo", "きょ",
@@ -429,6 +460,7 @@ var romajiToKatakana = strings.NewReplacer(
 	"PU", "プ",
 	"PE", "ペ",
 	"PO", "ポ",
+	"DEU", "デュ",
 	"KYA", "キャ",
 	"KYU", "キュ",
 	"KYO", "キョ",
@@ -573,9 +605,9 @@ var kanaToRomaji = strings.NewReplacer(
 	"じゃ", "ja",
 	"じゅ", "ju",
 	"じょ", "jo",
-	"ぢゃ", "dya",
-	"ぢゅ", "dyu",
-	"ぢょ", "dyo",
+	// "ぢゃ", "dya", // Handled by Phonetic functions
+	// "ぢゅ", "dyu", // Handled by Phonetic functions
+	// "ぢょ", "dyo", // Handled by Phonetic functions
 	"びゃ", "bya",
 	"びゅ", "byu",
 	"びょ", "byo",
@@ -633,6 +665,7 @@ var kanaToRomaji = strings.NewReplacer(
 	"ふぅ", "hu",
 	"みぇ", "mye",
 	"りぇ", "rye",
+	"でゅ", "deu",
 	"ゔ", "vu",
 	"か", "ka",
 	"き", "ki",
@@ -685,8 +718,8 @@ var kanaToRomaji = strings.NewReplacer(
 	"ぜ", "ze",
 	"ぞ", "zo",
 	"だ", "da",
-	"ぢ", "di",
-	"づ", "du",
+	//"ぢ", "di", // Handled by Phonetic functions
+	// "づ", "du", // Handled by Phonetic functions
 	"で", "de",
 	"ど", "do",
 	"ば", "ba",
@@ -706,11 +739,11 @@ var kanaToRomaji = strings.NewReplacer(
 	"え", "e",
 	"お", "o",
 	"ん", "n",
-	"ぁ", "xa",
-	"ぃ", "xi",
-	"ぅ", "xu",
-	"ぇ", "xe",
-	"ぉ", "xo",
+	// "ぁ", "xa", // Handled by Phonetic functions
+	// "ぃ", "xi", // Handled by Phonetic functions
+	// "ぅ", "xu", // Handled by Phonetic functions
+	// "ぇ", "xe", // Handled by Phonetic functions
+	// "ぉ", "xo", // Handled by Phonetic functions
 
 	"キャ", "KYA",
 	"キュ", "KYU",
@@ -739,9 +772,9 @@ var kanaToRomaji = strings.NewReplacer(
 	"ジャ", "JA",
 	"ジュ", "JU",
 	"ジョ", "JO",
-	"ヂャ", "DYA",
-	"ヂュ", "DYU",
-	"ヂョ", "DYO",
+	// "ヂャ", "DYA", // Handled by Phonetic functions
+	// "ヂュ", "DYU", // Handled by Phonetic functions
+	// "ヂョ", "DYO", // Handled by Phonetic functions
 	"ビャ", "BYA",
 	"ビュ", "BYU",
 	"ビョ", "BYO",
@@ -799,6 +832,7 @@ var kanaToRomaji = strings.NewReplacer(
 	"ホゥ", "HU",
 	"ミェ", "MYE",
 	"リェ", "RYE",
+	"デュ", "DUU",
 	"ヴ", "VU",
 	"カ", "KA",
 	"キ", "KI",
@@ -851,8 +885,8 @@ var kanaToRomaji = strings.NewReplacer(
 	"ゼ", "ZE",
 	"ゾ", "ZO",
 	"ダ", "DA",
-	"ヂ", "DI",
-	"ヅ", "DU",
+	// "ヂ", "DI", // Handled by Phonetic functions
+	// "ヅ", "DU", // Handled by Phonetic functions
 	"デ", "DE",
 	"ド", "DO",
 	"バ", "BA",
@@ -872,9 +906,9 @@ var kanaToRomaji = strings.NewReplacer(
 	"エ", "E",
 	"オ", "O",
 	"ン", "N",
-	"ァ", "XA",
-	"ィ", "XI",
-	"ゥ", "XU",
-	"ェ", "XE",
-	"ォ", "XO",
+	// "ァ", "XA", // Handled by Phonetic functions
+	// "ィ", "XI", // Handled by Phonetic functions
+	// "ゥ", "XU", // Handled by Phonetic functions
+	// "ェ", "XE", // Handled by Phonetic functions
+	// "ォ", "XO", // Handled by Phonetic functions
 )

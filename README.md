@@ -33,16 +33,17 @@ kana.ToRomajiCased("ひらがな and カタカナ", false) // -> "hiragana and K
 ```
 
 ```go
-// By default, ToRomaji outputs the literal transliteration of the kana.
-// This means that づ and ぢ are du and di, respectively. To return the correct
-// vocal pronunciation of a romaji string, use `Vocalized(s string):`
+// The 2nd parameter, `vocalize bool` indicates if the the output is phonetic or literal.
+// See the 'Vocalized vs Unvocalized Romaji' section below.
 kana.ToRomaji("つづく", false) // -> "tsuduku"
-kana.ToRomaji("つづく", true) // -> "tsuzuku"
+kana.ToRomaji("つづく", true) // -> "tsuzuku" (vocalized)
 
 kana.ToRomaji("まぢか", false) // -> "madika"
-kana.ToRomaji("まぢか", true) // -> "majika"
-```
+kana.ToRomaji("まぢか", true) // -> "majika" (vocalized)
 
+kana.ToRomaji("マッチャ", false) // -> "maccha"
+kana.ToRomaji("マッチャ", true) // -> "matcha" (vocalized)
+```
 
 ```go
 // Convert Romaji and Katakana to Hiragana
@@ -131,14 +132,8 @@ A number of rule considerations and assumptions have been made while creating th
     * いっしょ is issho
     * ぱっぱ is pappa
     * ざっし is zasshi
-    * __cch uses the Revised Hepburn intepretation (tch)__ for alignment with English phonology:
-        * まっちゃ is matcha, not maccha
-        * こっち is kotchi, not kocchi
+    * まっちゃ is maccha
 * __la, li, lu, le, lo__ are converted to _ra, ri, ru, re, ro_ before transliteratio.
-* __Nihon-Shiki romanization is used to map input-ambiguous characters:__
-    * di and DI are ぢ and ヂ
-    * du and DU are づ and ヅ
-    * Use the `vocalized=true` parameter on `ToRomaji` and `ToRomajiCased` to return the returned romaji into the normalized pronunciation - _di_ as _ji_, _du_ as _zu_.
 * __じゃ, じゅ and じょ are ja, ju, and jo,__ however, _jya, jyu, and jyo_ are also valid for a one-way romaji→kana conversion.
 * __Isolated small vowel kana__ are romanized with 'x' prefixes, _if they are not part of a larger composite:_ 
     * フォト becomes "foto", as the ォ is part of the larger composite フォ.
@@ -150,12 +145,32 @@ A number of rule considerations and assumptions have been made while creating th
     * xo and XO are ぉ and ォ
     * __Dangling _x_'s__ that remain after all other transliterations are converted into っ and ッ for hiragana and katakana respectively. The unnatural sequence "xx" will always become っっ or ッッ.
  
+#### Vocalized vs Unvocalized Romaji
+Both `ToRomaji` and `ToRomajiCased` take a boolean parameter to indicate if the romaji returned should be in a 'recorded' or 'vocalized' format, which more closely describes the pronounciation of the string. This can be useful if you don't need to preserve the character mappings for converting it back to the same kana and simply wish to show the pronunciation of a word. 
+
+* When _Unvocalized `ToRomaji(string, false)`:_ 
+    * Nihon-Shiki romanization is used to map input-ambiguous characters:
+        * ぢ and づ are di and du
+        * ヂ and ヅ are DI and DU
+        * ぢゃ, ぢゅ, ぢょ are dya, dyu, dyo
+        * ヂャ, ヂュ, ヂョ are DYA, DYU, DYO
+    * cch double consonants are literal:
+        * まっちゃ is maccha
+        * こっち is kocchi
+* When _Vocalized `ToRomaji(string, true)`:_
+    * input-ambiguous characters are converted to their phonetic equivalents:
+        * ぢ and づ are ji and zu
+        * ヂ and ヅ are JI and ZU
+        * ぢゃ, ぢゅ, ぢょ are ja, ju, jo
+        * ヂャ, ヂュ, ヂョ are JA, JU, JO
+    * cch double consonants use the Revised Hepburn intepretation (tch):
+        * まっちゃ is matcha
+        * こっち is kotchi
+
 Review `tables.go` for romaji and kana character mapping references. 
  
 ### Contributions
-
 Open an issue to report a bug, ask a question, or make a feature request!
 
 ### License
-
 MIT License.

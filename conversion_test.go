@@ -45,12 +45,88 @@ func TestReadmeExamples(t *testing.T) {
 	require.Equal(t, []string{"平", "易", "日", "本", "語", "伝", "週", "刊", "放", "送", "日", "本", "語"}, ExtractKanji("また、平易な日本語で伝える週刊ニュースも放送します。日本語"))
 }
 
-func TestVocalized(t *testing.T) {
+func TestPhonetic(t *testing.T) {
 	require.Equal(t, "tsuduku", ToRomaji("つづく", false))
 	require.Equal(t, "tsuzuku", ToRomaji("つづく", true))
 
 	require.Equal(t, "madika", ToRomaji("まぢか", false))
 	require.Equal(t, "majika", ToRomaji("まぢか", true))
+
+	require.Equal(t, "madika", ToRomaji("まぢか", false))
+	require.Equal(t, "majika", ToRomaji("まぢか", true))
+
+	require.Equal(t, "maccha", ToRomaji("まっちゃ", false))
+	require.Equal(t, "maccha", ToRomaji("マッチャ", false))
+	require.Equal(t, "matcha", ToRomaji("まっちゃ", true))
+	require.Equal(t, "matcha", ToRomaji("マッチャ", true))
+
+	require.Equal(t, "kocchi", ToRomaji("こっち", false))
+	require.Equal(t, "kocchi", ToRomaji("コッチ", false))
+	require.Equal(t, "kotchi", ToRomaji("こっち", true))
+	require.Equal(t, "kotchi", ToRomaji("コッチ", true))
+
+	require.Equal(t, "uo", ToRomaji("ウォ", true))
+	require.Equal(t, "uxo", ToRomaji("ウォ", false))
+	require.Equal(t, "xaxaxa", ToRomaji("ぁぁぁ", false))
+}
+
+func TestPhoneticRomaji(t *testing.T) {
+	tt := [][]string{
+		{"っc", "tc"},
+		{"ッC", "TC"},
+		{"ァ", "a"},
+		{"ィ", "i"},
+		{"ゥ", "u"},
+		{"ェ", "e"},
+		{"ォ", "o"},
+		{"ぁ", "a"},
+		{"ぃ", "i"},
+		{"ぅ", "u"},
+		{"ぇ", "e"},
+		{"ぉ", "o"},
+		{"ぢ", "ji"},
+		{"ヂ", "JI"},
+		{"づ", "zu"},
+		{"ヅ", "ZU"},
+		{"ぢゃ", "ja"},
+		{"ぢゅ", "ju"},
+		{"ぢょ", "jo"},
+		{"ヂャ", "JA"},
+		{"ヂュ", "JU"},
+		{"ヂョ", "JO"},
+	}
+
+	for i, v := range tt {
+		require.Equal(t, v[1], ToRomajiCased(v[0], true), "testing (%d) %s = %s", i, v[0], v[1])
+	}
+}
+
+func TestUnphoneticRomaji(t *testing.T) {
+	tt := [][]string{
+		{"ァ", "xa"},
+		{"ィ", "xi"},
+		{"ゥ", "xu"},
+		{"ェ", "xe"},
+		{"ォ", "xo"},
+		{"ぁ", "xa"},
+		{"ぃ", "xi"},
+		{"ぅ", "xu"},
+		{"ぇ", "xe"},
+		{"ぢ", "di"},
+		{"ヂ", "DI"},
+		{"づ", "du"},
+		{"ヅ", "DU"},
+		{"ぢゃ", "dya"},
+		{"ぢゅ", "dyu"},
+		{"ぢょ", "dyo"},
+		{"ヂャ", "DYA"},
+		{"ヂュ", "DYU"},
+		{"ヂョ", "DYO"},
+	}
+
+	for i, v := range tt {
+		require.Equal(t, v[1], ToRomajiCased(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
+	}
 }
 
 func TestIsHiragana(t *testing.T) {
@@ -426,8 +502,8 @@ func TestToRomajiShouldConvertDoubleConsonants(t *testing.T) {
 		{"ぁっぁ", "xaxxa"},
 		{"やっや", "yayya"},
 		{"ざっざ", "zazza"},
-		{"まっちゃ", "matcha"},
-		{"こっち", "kotchi"},
+		{"まっちゃ", "maccha"},
+		{"こっち", "kocchi"},
 		{"ざっし", "zasshi"},
 		{"いっしょ", "issho"},
 
@@ -448,13 +524,14 @@ func TestToRomajiShouldConvertDoubleConsonants(t *testing.T) {
 		{"ァッァ", "xaxxa"},
 		{"ヤッヤ", "yayya"},
 		{"ザッザ", "zazza"},
-		{"マッチャ", "matcha"},
-		{"コッチ", "kotchi"},
+		{"マッチャ", "maccha"},
+		{"コッチ", "kocchi"},
 	}
 
 	for i, v := range tt {
 		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
+
 }
 
 func TestToKatakanaShouldConvertAnyLetterCase(t *testing.T) {
@@ -574,9 +651,9 @@ var toHiraganaBasicSequences = [][]string{
 	{"jidouhanbaiki", "じどうはんばいき"},
 	{"zen'in", "ぜんいん"},
 	{"kitte", "きって"},
-	{"matcha", "まっちゃ"},
+	{"maccha", "まっちゃ"},
 	{"sassato", "さっさと"},
-	{"kotchi", "こっち"},
+	{"kocchi", "こっち"},
 	{"eki", "えき"},
 	{"shokubutsu", "しょくぶつ"},
 	{"mizuumi", "みずうみ"},
@@ -1525,4 +1602,5 @@ func TestToRomajiEquivalents(t *testing.T) {
 	for i, v := range tt {
 		require.Equal(t, v[1], ToRomaji(v[0], false), "testing (%d) %s = %s", i, v[0], v[1])
 	}
+
 }
