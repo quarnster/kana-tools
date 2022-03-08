@@ -145,7 +145,7 @@ A number of rule considerations and assumptions have been made while creating th
     * xo and XO are ぉ and ォ
     * __Dangling _x_'s__ that remain after all other transliterations are converted into っ and ッ for hiragana and katakana respectively. The unnatural sequence "xx" will always become っっ or ッッ.
  
-#### Phonetic vs Unphonetic Romaj
+#### Phonetic vs Unphonetic Romaji
 Both `ToRomaji` and `ToRomajiCased` take a boolean parameter to indicate if the romaji returned should be in a wapuro or 'phonetic' format, which more closely describes the pronounciation of the string. This can be useful if you don't need to preserve the character mappings for converting it back to the same kana and simply wish to show the pronunciation of a word. 
 
 * When _Unvocalized `ToRomaji(string, false)`:_ 
