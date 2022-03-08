@@ -37,7 +37,10 @@ kana.ToRomajiCased("ひらがな and カタカナ", false) // -> "hiragana and K
 // This means that づ and ぢ are du and di, respectively. To return the correct
 // vocal pronunciation of a romaji string, use `Vocalized(s string):`
 kana.ToRomaji("つづく", false) // -> "tsuduku"
-kana.Vocalized(kana.ToRomaji("つづく", true)) // -> "tsuzuku"
+kana.ToRomaji("つづく", true) // -> "tsuzuku"
+
+kana.ToRomaji("まぢか", false) // -> "madika"
+kana.ToRomaji("まぢか", true) // -> "majika"
 ```
 
 
