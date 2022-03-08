@@ -33,16 +33,16 @@ kana.ToRomajiCased("ひらがな and カタカナ", false) // -> "hiragana and K
 ```
 
 ```go
-// The 2nd parameter, `vocalize bool` indicates if the the output is phonetic or literal.
-// See the 'Vocalized vs Unvocalized Romaji' section below.
+// The 2nd parameter, `phonetic bool` indicates if the the output is phonetic or wapuro literal.
+// See the 'Phonetic vs Unphonetic Romaji' section below.
 kana.ToRomaji("つづく", false) // -> "tsuduku"
-kana.ToRomaji("つづく", true) // -> "tsuzuku" (vocalized)
+kana.ToRomaji("つづく", true) // -> "tsuzuku" (phonetic)
 
 kana.ToRomaji("まぢか", false) // -> "madika"
-kana.ToRomaji("まぢか", true) // -> "majika" (vocalized)
+kana.ToRomaji("まぢか", true) // -> "majika" (phonetic)
 
 kana.ToRomaji("マッチャ", false) // -> "maccha"
-kana.ToRomaji("マッチャ", true) // -> "matcha" (vocalized)
+kana.ToRomaji("マッチャ", true) // -> "matcha" (phonetic)
 ```
 
 ```go
@@ -145,8 +145,8 @@ A number of rule considerations and assumptions have been made while creating th
     * xo and XO are ぉ and ォ
     * __Dangling _x_'s__ that remain after all other transliterations are converted into っ and ッ for hiragana and katakana respectively. The unnatural sequence "xx" will always become っっ or ッッ.
  
-#### Vocalized vs Unvocalized Romaji
-Both `ToRomaji` and `ToRomajiCased` take a boolean parameter to indicate if the romaji returned should be in a 'recorded' or 'vocalized' format, which more closely describes the pronounciation of the string. This can be useful if you don't need to preserve the character mappings for converting it back to the same kana and simply wish to show the pronunciation of a word. 
+#### Phonetic vs Unphonetic Romaj
+Both `ToRomaji` and `ToRomajiCased` take a boolean parameter to indicate if the romaji returned should be in a wapuro or 'phonetic' format, which more closely describes the pronounciation of the string. This can be useful if you don't need to preserve the character mappings for converting it back to the same kana and simply wish to show the pronunciation of a word. 
 
 * When _Unvocalized `ToRomaji(string, false)`:_ 
     * Nihon-Shiki romanization is used to map input-ambiguous characters:

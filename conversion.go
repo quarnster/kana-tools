@@ -7,10 +7,10 @@ import (
 
 // ToRomaji converts hiragana and/or katakana to lowercase romaji. By default,
 // the literal transliteration of づ　and ぢ are used, returnin du and di,
-// respectively. Set vocalize to true to return the romaji in its correctly
+// respectively. Set phonetic to true to return the romaji in its correctly
 // pronounced form - zu and ji.
-func ToRomaji(s string, vocalize bool) string {
-	s = ToRomajiCased(s, vocalize)
+func ToRomaji(s string, phonetic bool) string {
+	s = ToRomajiCased(s, phonetic)
 	s = strings.ToLower(s)
 
 	return s
@@ -18,11 +18,11 @@ func ToRomaji(s string, vocalize bool) string {
 
 // ToRomajiCased converts hiragana and/or katakana to cased romaji, where
 // hiragana and katakana are presented in lowercase and uppercase respectively.
-func ToRomajiCased(s string, vocalize bool) string {
+func ToRomajiCased(s string, phonetic bool) string {
 	s = moraicNRomaji.Replace(s)
 	s = kanaToRomaji.Replace(s)
 
-	if vocalize {
+	if phonetic {
 		s = phoneticRomaji.Replace(s)
 	} else {
 		s = unphoneticRomaji.Replace(s)
