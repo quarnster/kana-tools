@@ -18,25 +18,28 @@ import "github.com/mochi-co/kana-tools"
 
 ```go
 // Convert Hiragana and Katakana to Romaji
-kana.ToRomaji("ひらがな") // -> "hiragana"
-kana.ToRomaji("カタカナ") // -> "katakana"
-kana.ToRomaji("ひらがな and カタカナ") // -> "hiragana and katakana"
+// ToRomaji(s string, vocalize bool) string
+kana.ToRomaji("ひらがな", false) // -> "hiragana"
+kana.ToRomaji("カタカナ", false) // -> "katakana"
+kana.ToRomaji("ひらがな and カタカナ", false) // -> "hiragana and katakana"
 ```
 
 ```go
 // Convert Hiragana and Katakana to Cased Romaji
-kana.ToRomajiCased("ひらがな") // -> "hiragana"
-kana.ToRomajiCased("カタカナ") // -> "KATAKANA"
-kana.ToRomajiCased("ひらがな and カタカナ") // -> "hiragana and KATAKANA"
+// ToRomajiCased(s string, vocalize bool) string
+kana.ToRomajiCased("ひらがな", false) // -> "hiragana"
+kana.ToRomajiCased("カタカナ", false) // -> "KATAKANA"
+kana.ToRomajiCased("ひらがな and カタカナ", false) // -> "hiragana and KATAKANA"
 ```
 
 ```go
 // By default, ToRomaji outputs the literal transliteration of the kana.
 // This means that づ and ぢ are du and di, respectively. To return the correct
 // vocal pronunciation of a romaji string, use `Vocalized(s string):`
-kana.ToRomaji("つづく") // -> "tsuduku"
-kana.Vocalized(kana.ToRomaji("つづく")) // -> "tsuzuku"
+kana.ToRomaji("つづく", false) // -> "tsuduku"
+kana.Vocalized(kana.ToRomaji("つづく", true)) // -> "tsuzuku"
 ```
+
 
 ```go
 // Convert Romaji and Katakana to Hiragana
@@ -132,7 +135,7 @@ A number of rule considerations and assumptions have been made while creating th
 * __Nihon-Shiki romanization is used to map input-ambiguous characters:__
     * di and DI are ぢ and ヂ
     * du and DU are づ and ヅ
-    * Use the `Vocalized(s string)` function to convert the returned romaji into the normalized pronunciation: _di_ becomes _ji_, _du_ becomes _zu_.
+    * Use the `vocalized=true` parameter on `ToRomaji` and `ToRomajiCased` to return the returned romaji into the normalized pronunciation - _di_ as _ji_, _du_ as _zu_.
 * __じゃ, じゅ and じょ are ja, ju, and jo,__ however, _jya, jyu, and jyo_ are also valid for a one-way romaji→kana conversion.
 * __Isolated small vowel kana__ are romanized with 'x' prefixes, _if they are not part of a larger composite:_ 
     * フォト becomes "foto", as the ォ is part of the larger composite フォ.
