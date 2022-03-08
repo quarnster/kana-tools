@@ -580,7 +580,8 @@ var toHiraganaBasicSequences = [][]string{
 	{"eki", "えき"},
 	{"shokubutsu", "しょくぶつ"},
 	{"mizuumi", "みずうみ"},
-	{"majika", "まぢか"},
+	{"madika", "まぢか"},
+	{"tsuduku", "つづく"},
 }
 
 var toKatakanaBasicSequences = [][]string{
