@@ -18,7 +18,7 @@ import "github.com/mochi-co/kana-tools"
 
 ```go
 // Convert Hiragana and Katakana to Romaji
-// ToRomaji(s string, vocalize bool) string
+// ToRomaji(s string, phonetic bool) string
 kana.ToRomaji("ひらがな", false) // -> "hiragana"
 kana.ToRomaji("カタカナ", false) // -> "katakana"
 kana.ToRomaji("ひらがな and カタカナ", false) // -> "hiragana and katakana"
@@ -26,7 +26,7 @@ kana.ToRomaji("ひらがな and カタカナ", false) // -> "hiragana and kataka
 
 ```go
 // Convert Hiragana and Katakana to Cased Romaji
-// ToRomajiCased(s string, vocalize bool) string
+// ToRomajiCased(s string, phonetic bool) string
 kana.ToRomajiCased("ひらがな", false) // -> "hiragana"
 kana.ToRomajiCased("カタカナ", false) // -> "KATAKANA"
 kana.ToRomajiCased("ひらがな and カタカナ", false) // -> "hiragana and KATAKANA"
