@@ -96,9 +96,9 @@ kana.IsKatakana("also 茶") // -> false
 
 ```go
 // String CONTAINS Kanji
-kana.ContainsKatakana("食べる") // -> true
-kana.ContainsKatakana("also 茶") // -> true
-kana.ContainsKatakana("ひらがな + カタカナ") // -> false
+kana.ContainsKanji("食べる") // -> true
+kana.ContainsKanji("also 茶") // -> true
+kana.ContainsKanji("ひらがな + カタカナ") // -> false
 ```
 
 ```go
