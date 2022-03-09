@@ -115,14 +115,14 @@ A number of rule considerations and assumptions have been made while creating th
     * benkyou/べんきょう, not benkyō.
     * toukyou/とうきょう, not Tōkyō.
     * obaasan/おばあさん, not obāsan.
-  * __Chōonpu (ー) are preferred__ for katakana and loan words, and will preserved or converted to minus-dashes.
-    * セーラー, not セエラア, becoming se-ra-
-    * パーティー, not パアティィ, becoming pa-ti-
+  * __Chōonpu (ー) are preferred__ for katakana and loan words, and will be preserved or converted to minus-dashes.
+    * セーラー, not セエラア; becoming se-ra-
+    * パーティー, not パアティィ; becoming pa-ti-
 * __Particles__ are always converted literally:
     * は is ha, not wa.
     * を is wo, not o.
     * へ is he, not e, etc.
-* __Moraic N's are used__ to disambiguate ん and な,に,ぬ,ね,の,にゃ,にゅ,にょ:
+* __Moraic n's are used__ to disambiguate ん and な,に,ぬ,ね,の,にゃ,にゅ,にょ:
     * かんい is kan'i
     * しにょう is shin'you
     * ぜんにん is zennin
@@ -132,12 +132,12 @@ A number of rule considerations and assumptions have been made while creating th
     * いっしょ is issho
     * ぱっぱ is pappa
     * ざっし is zasshi
-    * まっちゃ is maccha
+    * まっちゃ is maccha (matcha when `phonetic = true`)
 * __la, li, lu, le, lo__ are converted to _ra, ri, ru, re, ro_ before transliteratio.
 * __じゃ, じゅ and じょ are ja, ju, and jo,__ however, _jya, jyu, and jyo_ are also valid for a one-way romaji→kana conversion.
 * __Isolated small vowel kana__ are romanized with 'x' prefixes, _if they are not part of a larger composite:_ 
     * フォト becomes "foto", as the ォ is part of the larger composite フォ.
-    * The unnatural spelling _パーティィ or ぱーてぃぃ_ becomes _pa-tixi,_ not pa-tii or pa-texixi. The correct spelling is パーティ (pa-ti).
+    * The unnatural spelling _パーティィ or ぱーてぃぃ_ becomes _pa-tixi,_ not pa-tii or pa-texixi (the correct spelling is パーティ pa-ti).
     * xa and XA are ぁ and ァ
     * xi and XI are ぃ and ィ
     * xu and XU are ぅ and ゥ
