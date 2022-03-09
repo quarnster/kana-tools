@@ -148,7 +148,7 @@ A number of rule considerations and assumptions have been made while creating th
 #### Phonetic vs Unphonetic Romaji
 Both `ToRomaji` and `ToRomajiCased` take a boolean parameter to indicate if the romaji returned should be in a wapuro or 'phonetic' format, which more closely describes the pronounciation of the string. This can be useful if you don't need to preserve the character mappings for converting it back to the same kana and simply wish to show the pronunciation of a word. 
 
-* When _Unvocalized `ToRomaji(string, false)`:_ 
+* When _Unphonetic `ToRomaji(string, false)`:_ 
     * Nihon-Shiki romanization is used to map input-ambiguous characters:
         * ぢ and づ are di and du
         * ヂ and ヅ are DI and DU
@@ -157,7 +157,7 @@ Both `ToRomaji` and `ToRomajiCased` take a boolean parameter to indicate if the 
     * cch double consonants are literal:
         * まっちゃ is maccha
         * こっち is kocchi
-* When _Vocalized `ToRomaji(string, true)`:_
+* When _Phonetic `ToRomaji(string, true)`:_
     * input-ambiguous characters are converted to their phonetic equivalents:
         * ぢ and づ are ji and zu
         * ヂ and ヅ are JI and ZU
