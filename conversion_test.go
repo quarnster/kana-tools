@@ -1604,3 +1604,27 @@ func TestToRomajiEquivalents(t *testing.T) {
 	}
 
 }
+
+func BenchmarkToRomajiCased(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ToRomajiCased("こんにちは", true)
+	}
+}
+
+func BenchmarkToHiragana(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ToHiragana("konnichiwa")
+	}
+}
+
+func BenchmarkToKatakana(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ToKatakana("konnichiwa")
+	}
+}
+
+func BenchmarkToKana(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ToKana("konnichiwa")
+	}
+}
