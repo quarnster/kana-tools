@@ -2,9 +2,11 @@ package kana
 
 import (
 	"bytes"
+	"reflect"
 	"strings"
 	"sync"
 	"unicode"
+	"unsafe"
 )
 
 // ToRomaji converts hiragana and/or katakana to lowercase romaji. By default,
@@ -22,6 +24,17 @@ var pool = sync.Pool{New: func() interface{} {
 	return bytes.NewBuffer(nil)
 }}
 
+func unsafeString(buf *bytes.Buffer) (ret string) {
+	tmp := buf.Bytes()
+	if len(tmp) == 0 {
+		return ""
+	}
+	sh := (*reflect.StringHeader)(unsafe.Pointer(&ret))
+	sh.Data = uintptr(unsafe.Pointer(&tmp[0]))
+	sh.Len = len(tmp)
+	return
+}
+
 // ToRomajiCased converts hiragana and/or katakana to cased romaji, where
 // hiragana and katakana are presented in lowercase and uppercase respectively.
 func ToRomajiCased(s string, phonetic bool) string {
@@ -31,17 +44,17 @@ func ToRomajiCased(s string, phonetic bool) string {
 	a.Reset()
 	b.Reset()
 	moraicNRomaji.WriteString(a, s)
-	kanaToRomaji.WriteString(b, a.String())
+	kanaToRomaji.WriteString(b, unsafeString(a))
 	a.Reset()
 
 	if phonetic {
-		phoneticRomaji.WriteString(a, b.String())
+		phoneticRomaji.WriteString(a, unsafeString(b))
 	} else {
-		unphoneticRomaji.WriteString(a, b.String())
+		unphoneticRomaji.WriteString(a, unsafeString(b))
 	}
 	b.Reset()
 
-	s = parseRomajiDoubles([]rune(a.String()))
+	s = parseRomajiDoubles([]rune(unsafeString(a)))
 	postRomajiSpecial.WriteString(b, s)
 
 	return b.String()
@@ -56,12 +69,12 @@ func ToHiragana(s string) string {
 	b.Reset()
 	s = strings.ToLower(s)
 	preHiragana.WriteString(a, s)
-	romajiToHiragana.WriteString(b, a.String())
+	romajiToHiragana.WriteString(b, unsafeString(a))
 	a.Reset()
-	s = strings.Map(KatakanaToHiragana, b.String())
+	s = strings.Map(KatakanaToHiragana, unsafeString(b))
 	b.Reset()
 	postHiragana.WriteString(a, s)
-	postKanaSpecial.WriteString(b, a.String())
+	postKanaSpecial.WriteString(b, unsafeString(a))
 	return b.String()
 }
 
@@ -74,12 +87,12 @@ func ToKatakana(s string) string {
 	b.Reset()
 	s = strings.ToUpper(s)
 	preKatakana.WriteString(a, s)
-	romajiToKatakana.WriteString(b, a.String())
+	romajiToKatakana.WriteString(b, unsafeString(a))
 	a.Reset()
-	s = strings.Map(HiraganaToKatakana, b.String())
+	s = strings.Map(HiraganaToKatakana, unsafeString(b))
 	b.Reset()
 	postKatakana.WriteString(a, s)
-	postKanaSpecial.WriteString(b, a.String())
+	postKanaSpecial.WriteString(b, unsafeString(a))
 	return b.String()
 }
 
@@ -92,17 +105,17 @@ func ToKana(s string) string {
 	a.Reset()
 	b.Reset()
 	preHiragana.WriteString(a, s)
-	preKatakana.WriteString(b, a.String())
+	preKatakana.WriteString(b, unsafeString(a))
 	a.Reset()
-	romajiToHiragana.WriteString(a, b.String())
+	romajiToHiragana.WriteString(a, unsafeString(b))
 	b.Reset()
-	romajiToKatakana.WriteString(b, a.String())
+	romajiToKatakana.WriteString(b, unsafeString(a))
 	a.Reset()
-	postHiragana.WriteString(a, b.String())
+	postHiragana.WriteString(a, unsafeString(b))
 	b.Reset()
-	postKatakana.WriteString(b, a.String())
+	postKatakana.WriteString(b, unsafeString(a))
 	a.Reset()
-	postKanaSpecial.WriteString(a, b.String())
+	postKanaSpecial.WriteString(a, unsafeString(b))
 	return a.String()
 }
 
