@@ -1,7 +1,9 @@
 package kana
 
 import (
+	"bytes"
 	"strings"
+	"sync"
 	"unicode"
 )
 
@@ -16,54 +18,92 @@ func ToRomaji(s string, phonetic bool) string {
 	return s
 }
 
+var pool = sync.Pool{New: func() interface{} {
+	return bytes.NewBuffer(nil)
+}}
+
 // ToRomajiCased converts hiragana and/or katakana to cased romaji, where
 // hiragana and katakana are presented in lowercase and uppercase respectively.
 func ToRomajiCased(s string, phonetic bool) string {
-	s = moraicNRomaji.Replace(s)
-	s = kanaToRomaji.Replace(s)
+	a, b := pool.Get().(*bytes.Buffer), pool.Get().(*bytes.Buffer)
+	defer pool.Put(a)
+	defer pool.Put(b)
+	a.Reset()
+	b.Reset()
+	moraicNRomaji.WriteString(a, s)
+	kanaToRomaji.WriteString(b, a.String())
+	a.Reset()
 
 	if phonetic {
-		s = phoneticRomaji.Replace(s)
+		phoneticRomaji.WriteString(a, b.String())
 	} else {
-		s = unphoneticRomaji.Replace(s)
+		unphoneticRomaji.WriteString(a, b.String())
 	}
+	b.Reset()
 
-	s = parseRomajiDoubles([]rune(s))
-	s = postRomajiSpecial.Replace(s)
+	s = parseRomajiDoubles([]rune(a.String()))
+	postRomajiSpecial.WriteString(b, s)
 
-	return s
+	return b.String()
 }
 
 // ToHiragana converts wapuro-hepburn romaji into the equivalent hiragana.
 func ToHiragana(s string) string {
+	a, b := pool.Get().(*bytes.Buffer), pool.Get().(*bytes.Buffer)
+	defer pool.Put(a)
+	defer pool.Put(b)
+	a.Reset()
+	b.Reset()
 	s = strings.ToLower(s)
-	s = preHiragana.Replace(s)
-	s = romajiToHiragana.Replace(s)
-	s = strings.Map(KatakanaToHiragana, s)
-	s = postHiragana.Replace(s)
-	return postKanaSpecial.Replace(s)
+	preHiragana.WriteString(a, s)
+	romajiToHiragana.WriteString(b, a.String())
+	a.Reset()
+	s = strings.Map(KatakanaToHiragana, b.String())
+	b.Reset()
+	postHiragana.WriteString(a, s)
+	postKanaSpecial.WriteString(b, a.String())
+	return b.String()
 }
 
 // ToKatakana converts wapuro-hepburn romaji into the equivalent katakana.
 func ToKatakana(s string) string {
+	a, b := pool.Get().(*bytes.Buffer), pool.Get().(*bytes.Buffer)
+	defer pool.Put(a)
+	defer pool.Put(b)
+	a.Reset()
+	b.Reset()
 	s = strings.ToUpper(s)
-	s = preKatakana.Replace(s)
-	s = romajiToKatakana.Replace(s)
-	s = strings.Map(HiraganaToKatakana, s)
-	s = postKatakana.Replace(s)
-	return postKanaSpecial.Replace(s)
+	preKatakana.WriteString(a, s)
+	romajiToKatakana.WriteString(b, a.String())
+	a.Reset()
+	s = strings.Map(HiraganaToKatakana, b.String())
+	b.Reset()
+	postKatakana.WriteString(a, s)
+	postKanaSpecial.WriteString(b, a.String())
+	return b.String()
 }
 
 // ToKana converts wapuro-hepburn uppercase and lowercase romaji into
 // katakana and hiragana respectively.
 func ToKana(s string) string {
-	s = preHiragana.Replace(s)
-	s = preKatakana.Replace(s)
-	s = romajiToHiragana.Replace(s)
-	s = romajiToKatakana.Replace(s)
-	s = postHiragana.Replace(s)
-	s = postKatakana.Replace(s)
-	return postKanaSpecial.Replace(s)
+	a, b := pool.Get().(*bytes.Buffer), pool.Get().(*bytes.Buffer)
+	defer pool.Put(a)
+	defer pool.Put(b)
+	a.Reset()
+	b.Reset()
+	preHiragana.WriteString(a, s)
+	preKatakana.WriteString(b, a.String())
+	a.Reset()
+	romajiToHiragana.WriteString(a, b.String())
+	b.Reset()
+	romajiToKatakana.WriteString(b, a.String())
+	a.Reset()
+	postHiragana.WriteString(a, b.String())
+	b.Reset()
+	postKatakana.WriteString(b, a.String())
+	a.Reset()
+	postKanaSpecial.WriteString(a, b.String())
+	return a.String()
 }
 
 // HiraganaToKatakana replaces a single hiragana character with the
